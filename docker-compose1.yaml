@@ -44,8 +44,10 @@ services:
     image: provectuslabs/kafka-ui
     container_name: kafkaui0
     ports:
-      - 8010:8010
+      - 8010:8080
     environment:
-      KAFKA_CLUSTERS_0_NAME: "local"
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:29092
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:9092, kafka2:9093
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zk0:2181
+      KAFKA_CLUSTERS_0_JMXPORT: 9997
 
