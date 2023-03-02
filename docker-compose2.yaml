@@ -1,0 +1,17 @@
+version: '2'
+services:
+  mysql:
+    image: mysql
+    platform: linux/arm64
+    container_name: mysql0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: 'source_db'
+      MYSQL_USER: 'docker'
+      MYSQL_PASSWORD: 'docker'
+      MYSQL_ROOT_PASSWORD: 'rootpass'
+    
+  
+  
+
