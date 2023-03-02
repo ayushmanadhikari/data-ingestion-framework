@@ -13,5 +13,16 @@ services:
       MYSQL_ROOT_PASSWORD: 'rootpass'
     
   
-  
+  schema-registry: 
+    image: confluentinc/cp-schema-registry
+    platform: linux/arm64
+    container_name: schemaregistry0
+    ports:
+      - 8085:8085
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zk0:2181"
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka1:9092, PLAINTEXT://kafka2:9093 
+      SCHEMA_REGISTRY_HOST_NAME: schemaregistry
+      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
+
 
