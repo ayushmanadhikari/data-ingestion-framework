@@ -26,7 +26,24 @@ services:
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
   
 
+
+  kafka-connect:
+    image: quay.io/debezium/connect
+    container_name: debezium0
+    ports: 
+      - 8083:8083
+    environment:
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_config_storage
+      OFFSET_STORAGE_TOPIC: connect_offset_storage
+      STATUS_STORAGE_TOPIC: connect_status_storage
+      BOOTSTRAP_SERVERS: kafka1:9092, kafka2:9093
+
+
   
+
+
+
 
 
 
