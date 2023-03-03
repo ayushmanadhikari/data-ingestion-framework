@@ -9,8 +9,10 @@ services:
     environment:
       MYSQL_DATABASE: 'source_db'
       MYSQL_USER: 'docker'
-      MYSQL_PASSWORD: 'docker'
+      MYSQL_PASSWORD: 'docker123'
       MYSQL_ROOT_PASSWORD: 'rootpass'
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
     
   
   schema-registry: 
@@ -38,6 +40,15 @@ services:
       OFFSET_STORAGE_TOPIC: connect_offset_storage
       STATUS_STORAGE_TOPIC: connect_status_storage
       BOOTSTRAP_SERVERS: kafka1:9092, kafka2:9093
+      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schemaregistry0:8085
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schemaregistry0:8085
+      
+     
+
+
+
 
 
   

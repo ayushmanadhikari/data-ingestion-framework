@@ -1,0 +1,22 @@
+{
+    "name": "test-connector",  
+    "config": {  
+      "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+      "tasks.max": "1",  
+      "database.hostname": "mysql0",  
+      "database.port": "3306",
+      "database.user": "docker",
+      "database.password": "docker123",
+      "database.server.name": "mysql_server",
+      "database.server.id": "001",  
+      "database.include.list": "source_db",
+      "topic.prefix": "dbserver1",  
+      "database.dbname": "source_db",  
+      "schema.history.internal.kafka.bootstrap.servers": "kafka1:9092, kafka2:9093", 
+      "schema.history.internal.kafka.topic": "schema-changes.inventory" ,
+      "include.schema.changes": "true" ,
+      "database.history.kafka.topic": "source_db.history.demo",
+      "database.history.kafka.bootstrap.servers": "kafka1:9092, kafka2:9093",
+      "database.allowPublicKeyRetrieval":"true"
+    }
+  }
