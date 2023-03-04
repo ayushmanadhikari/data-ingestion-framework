@@ -15,7 +15,9 @@ spark.sparkContext.setLogLevel("WARN")
 schema = StructType([StructField("after", StringType())])
 
 
-demoDf = sc.readStream.format("kafka").option("kafka.bootstrap.servers", "kafka1:9092, kafka2:9093").option("subscribe", "mysql_server.source_db.demo").load() 
+demoDf = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "localhost:29092").option("subscribe", "mysql_server.source_db.demo").load() 
+
+
 
 
 print(demoDf)
