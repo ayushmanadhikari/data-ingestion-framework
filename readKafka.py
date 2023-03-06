@@ -1,23 +1,26 @@
-import findspark
+import os
 from pyspark.sql.functions import from_json
-
 from pyspark import SQLContext
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType
-import time
 
 
+CONS_KAFKA_SERVER = "localhost:29092"
+CONS_KAFKA_TOPIC = "dbserver1.source_db.demo"
 
-spark = SparkSession.builder.appName("MYSQL-CDC-RealTime").getOrCreate()
-sc = SQLContext(spark)
+
+spark = SparkSession.builder.appName("mysql-cdc-kafka").getOrCreate()
+
 spark.sparkContext.setLogLevel("WARN")
+os.environ['PYSPARK_SUBMIT_ARGS'] = "--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.1 pyspark-shell"
 
-schema = StructType([StructField("after", StringType())])
+readingStreamDF = spark.readStream.format("kafka").option("kafka.bootstrap.servers", CONS_KAFKA_SERVER).option("subscribe", CONS_KAFKA_TOPIC).option("startingOffsets", "earliest").load()
 
-
-demoDf = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "localhost:29092").option("subscribe", "mysql_server.source_db.demo").load() 
-
-
+readingStreamDF.writeStream.format("console").outputMode("append").start().awaitTermination()
 
 
-print(demoDf)
+
+
+
+
+
+

@@ -30,8 +30,9 @@ services:
 
 
   kafka-connect:
-    image: quay.io/debezium/connect
+    image: debezium/connect
     container_name: debezium0
+    platform: linux/arm64
     ports: 
       - 8083:8083
     environment:
