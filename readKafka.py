@@ -3,6 +3,7 @@ from pyspark.sql.functions import from_json
 from pyspark import SQLContext
 from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro, to_avro
+from pyspark.sql.avro import SchemaBuilder
 
 
 CONS_KAFKA_SERVER = "localhost:29092, localhost:29093"

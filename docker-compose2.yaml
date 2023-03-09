@@ -17,22 +17,21 @@ services:
   
   schema-registry: 
     image: confluentinc/cp-schema-registry
-    platform: linux/arm64
+    platform: linux/arm64/v8
     container_name: schemaregistry0
     ports:
       - 8085:8085
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zk0:2181"
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka1:9092, PLAINTEXT://kafka2:9093 
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka1:9092
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
   
 
 
   kafka-connect:
-    image: debezium/connect
+    image: quay.io/debezium/connect:1.9
     container_name: debezium0
-    platform: linux/arm64
     ports: 
       - 8083:8083
     environment:
@@ -40,11 +39,12 @@ services:
       CONFIG_STORAGE_TOPIC: connect_config_storage
       OFFSET_STORAGE_TOPIC: connect_offset_storage
       STATUS_STORAGE_TOPIC: connect_status_storage
-      BOOTSTRAP_SERVERS: kafka1:9092, kafka2:9093
+      BOOTSTRAP_SERVERS: kafka1:9092
       CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schemaregistry0:8085
       CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schemaregistry0:8085
+    
       
      
 
