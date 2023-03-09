@@ -1,9 +1,7 @@
-import os
-from pyspark.sql.functions import from_json
-from pyspark import SQLContext
 from pyspark.sql import SparkSession
 from pyspark.sql.avro.functions import from_avro, to_avro
-from pyspark.sql.avro import SchemaBuilder
+from pyspark.sql.column import Column, _to_java_column
+from pyspark.sql.functions import col, struct
 
 
 CONS_KAFKA_SERVER = "localhost:29092, localhost:29093"
@@ -18,10 +16,17 @@ spark.sparkContext.setLogLevel("WARN")
 
 
 readingStreamDF = spark.readStream.format("kafka").option("kafka.bootstrap.servers", CONS_KAFKA_SERVER).\
-    option("subscribe", CONS_KAFKA_TOPIC).option("startingOffsets", "earliest").load().\
-    select(from_avro("value"))
+    option("subscribe", CONS_KAFKA_TOPIC).option("startingOffsets", "earliest").load()
 
 readingStreamDF.writeStream.format("console").outputMode("append").start().awaitTermination()
+
+
+
+
+
+
+
+### we need schema to deserialize avro data.
 
 
 

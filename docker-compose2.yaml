@@ -22,10 +22,10 @@ services:
     ports:
       - 8085:8085
     environment:
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zk0:2181"
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka1:9092
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zk0:2181
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka1:9092
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry
-      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
   
 
 
@@ -40,10 +40,7 @@ services:
       OFFSET_STORAGE_TOPIC: connect_offset_storage
       STATUS_STORAGE_TOPIC: connect_status_storage
       BOOTSTRAP_SERVERS: kafka1:9092
-      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schemaregistry0:8085
-      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schemaregistry0:8085
+      
     
       
      
