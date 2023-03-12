@@ -1,11 +1,13 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.avro.functions import from_avro, to_avro
+from pyspark import SparkContext
+#from pyspark.sql.avro.functions import from_avro, to_avro
 from pyspark.sql.column import Column, _to_java_column
-from pyspark.sql.functions import col, struct
 
 
-CONS_KAFKA_SERVER = "localhost:29092, localhost:29093"
-CONS_KAFKA_TOPIC = "dbserver1.source_db.demo"
+# CONSTANTS
+CONS_KAFKA_SERVER = "localhost:29092"
+CONS_KAFKA_TOPIC = "mysql_server.source_db.demo"
+CONS_SCHEMA_REGISTRY_SERVER = "http://schemaregistry0:8085"
 
 
 spark = SparkSession.builder.appName("mysql-cdc-kafka").getOrCreate()
@@ -21,16 +23,24 @@ readingStreamDF = spark.readStream.format("kafka").option("kafka.bootstrap.serve
 readingStreamDF.writeStream.format("console").outputMode("append").start().awaitTermination()
 
 
+### desearilizing avro messages
+def from_avro(col, config):
+    jvm_gateway = SparkContext._active_spark_context._gateway.jvm
+    abris_avro = jvm_gateway.za.co.absa.abris.avro
+    return Column(abris_avro.functions.from_avro(_to_java_column(col), config))
 
 
 
+def from_avro_abris_config(config_map, topic, is_key):
+    jvm_gateway = SparkContext._active_spark_context._gateway.jvm
+    scala_map = jvm_gateway.PythonUtils.toScalaMap(config_map)
 
-
-### we need schema to deserialize avro data.
-
-
-
-
+    return jvm_gateway.za.co.absa.abris.config\
+        .AbrisConfig\
+        .fromConfluentAvro()\
+        .downloadReaderSchemaByLatestVersion()\
+        .andTopicNameStrategy(topic, is_key)\
+        .usingSchemaRegistry(scala_map)
 
 
 
