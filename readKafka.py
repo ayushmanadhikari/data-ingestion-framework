@@ -4,7 +4,7 @@ from pyspark import SparkContext
 from pyspark.sql.column import Column, _to_java_column
 
 
-# CONSTANTS
+### CONSTANTS
 CONS_KAFKA_SERVER = "localhost:29092"
 CONS_KAFKA_TOPIC = "mysql_server.source_db.demo"
 CONS_SCHEMA_REGISTRY_SERVER = "http://schemaregistry0:8085"
