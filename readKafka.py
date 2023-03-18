@@ -1,8 +1,8 @@
 from pyspark.sql import SparkSession
 from pyspark import SparkContext
 #from pyspark.sql.avro.functions import from_avro, to_avro
-from pyspark.sql.column import Column, _to_java_column
-
+#from pyspark.sql.column import Column, _to_java_column
+from pyspark.sql.avro.functions import from_avro, to_avro
 
 
 ### CONSTANTS
